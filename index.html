@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dhawal Singadia | React Frontend Developer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="navbar">
+    <h1>Dhawal Singadia</h1>
+
+    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav-menu">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a href="https://drive.google.com/file/d/1sC97pqkFz7ktdzWsgwg2eT69RzmO-MQr/view?usp=sharing" download>Resume</a>
+
+      <div class="theme-selector">
+        <button id="theme-btn" aria-haspopup="true" aria-expanded="false" aria-label="Select Theme">
+          🎨
+        </button>
+        <ul id="theme-menu" class="theme-menu" role="menu" aria-label="Theme options" hidden>
+          <li role="menuitem" tabindex="0" data-theme="classic" title="Classic">🌑</li>
+          <li role="menuitem" tabindex="0" data-theme="light" title="Light">🌤️</li>
+          <li role="menuitem" tabindex="0" data-theme="solarized" title="Solarized">🌞</li>
+          <li role="menuitem" tabindex="0" data-theme="minimal" title="Minimal">⚪</li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>React Frontend Developer | UI Builder</h2>
+    <p>Focused on building responsive, intuitive web apps using React.js and modern JavaScript frameworks. Passionate about clean code, collaboration, and delivering meaningful digital experiences.</p>
+  </section>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I am a frontend developer with a solid foundation in React.js, JavaScript, and UI design. I specialize in building clean, scalable interfaces and integrating RESTful APIs. I enjoy collaborating with teams to turn concepts into interactive digital products that improve real-world workflows, especially in the education and campus domains.</p>
+    <p>Currently seeking an opportunity where I can apply my frontend knowledge, grow with experienced teams, and contribute to mission-driven applications like the one Unison Flow is building.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Technical Skills</h2>
+    <ul>
+      <li>React.js (Hooks, JSX, Routing)</li>
+      <li>HTML5, CSS3, JavaScript (ES6+)</li>
+      <li>State Management (Context API, Redux basics)</li>
+      <li>RESTful API Integration</li>
+      <li>Git & GitHub (Version Control)</li>
+      <li>Firebase Authentication & MongoDB</li>
+      <li>AWS EC2 & Cloud Deployment</li>
+      <li>Basic knowledge of AngularJS and Flutter</li>
+    </ul>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="project">
+      <h3>Regional Language Communication Web App</h3>
+      <p>Developed a MERN stack web app deployed on AWS EC2 with Firebase authentication. Focused on building responsive React components to support regional language communication, enhancing accessibility for Indian users.</p>
+    </div>
+    <div class="project">
+      <h3>Gesture Recognition System</h3>
+      <p>Built an AI-based hand gesture recognition tool using OpenCV and MediaPipe. It supports multilingual interaction and smart home integration, demonstrating real-time responsiveness in UI feedback.</p>
+    </div>
+    <div class="project">
+      <h3>Academic Project: Airline Management System</h3>
+      <p>Built a desktop-based Airline Management System using Java and SQL. Includes modules for ticket booking, scheduling, and passenger records with an intuitive UI and proper CRUD functionality.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Get in Touch</h2>
+    <p>Email: <a href="mailto:dsingadia1@gmail.com">dsingadia1@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/SingadiaDhawal" target="_blank" rel="noopener noreferrer">github.com/SingadiaDhawal</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/dhawal-singadia-5022b5218" target="_blank" rel="noopener noreferrer">linkedin.com/in/dhawalsingadia</a></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Dhawal Singadia. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
