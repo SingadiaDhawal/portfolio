@@ -1,79 +1,125 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Hamburger menu toggle
-  const hamburger = document.querySelector('.hamburger');
-  const nav = document.querySelector('nav');
+// =========================================
+// DHAWAL SINGADIA — PORTFOLIO · script.js
+// =========================================
 
-  hamburger.addEventListener('click', () => {
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', !expanded);
-    nav.classList.toggle('show');
-    hamburger.classList.toggle('active');
+// ---- Custom Cursor ----
+const cursor = document.getElementById('cursor');
+const cursorDot = document.getElementById('cursorDot');
+let mouseX = 0, mouseY = 0;
+let dotX = 0, dotY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursorDot.style.left = mouseX + 'px';
+  cursorDot.style.top = mouseY + 'px';
+});
+
+function animateCursor() {
+  dotX += (mouseX - dotX) * 0.12;
+  dotY += (mouseY - dotY) * 0.12;
+  cursor.style.left = dotX + 'px';
+  cursor.style.top = dotY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// ---- Nav scroll effect ----
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ---- Reveal on scroll ----
+const revealEls = document.querySelectorAll('.reveal, .reveal-right');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const delay = entry.target.dataset.delay || 0;
+      setTimeout(() => {
+        entry.target.classList.add('revealed');
+      }, delay);
+      revealObserver.unobserve(entry.target);
+    }
   });
+}, { threshold: 0.12 });
 
-  // Theme menu toggle logic
-  const themeBtn = document.getElementById('theme-btn');
-  const themeMenu = document.getElementById('theme-menu');
+// Stagger siblings
+document.querySelectorAll('.section').forEach(section => {
+  const children = section.querySelectorAll('.reveal, .reveal-right');
+  children.forEach((el, i) => {
+    el.dataset.delay = i * 80;
+  });
+});
 
-  if (!themeBtn || !themeMenu) return;
+revealEls.forEach(el => revealObserver.observe(el));
 
-  // Load saved theme
-  const savedTheme = localStorage.getItem('theme') || 'default';
-  document.body.classList.remove('light', 'solarized', 'minimal'); // Removed futuristic here
-  if (savedTheme !== 'default') {
-    document.body.classList.add(savedTheme);
+// ---- Counter animation ----
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const duration = 1800;
+  const start = performance.now();
+
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const current = (target * ease).toFixed(2);
+    el.textContent = current;
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target.toFixed(2);
   }
+  requestAnimationFrame(update);
+}
 
-  // Toggle menu visibility
-  themeBtn.addEventListener('click', () => {
-    const expanded = themeBtn.getAttribute('aria-expanded') === 'true';
-    themeBtn.setAttribute('aria-expanded', !expanded);
-    if (themeMenu.hasAttribute('hidden')) {
-      themeMenu.removeAttribute('hidden');
-    } else {
-      themeMenu.setAttribute('hidden', '');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const nums = entry.target.querySelectorAll('.stat-num[data-target]');
+      nums.forEach(n => animateCounter(n));
+      counterObserver.unobserve(entry.target);
     }
   });
+}, { threshold: 0.5 });
 
-  // Handle theme option click
-  themeMenu.addEventListener('click', (e) => {
-    if (e.target && e.target.matches('li[data-theme]')) {
-      const selectedTheme = e.target.getAttribute('data-theme');
-      document.body.classList.remove('light', 'solarized', 'minimal'); // Removed futuristic here
-      if (selectedTheme !== 'default') {
-        document.body.classList.add(selectedTheme);
-      }
-      localStorage.setItem('theme', selectedTheme);
-      // Close the menu
-      themeMenu.setAttribute('hidden', '');
-      themeBtn.setAttribute('aria-expanded', 'false');
-    }
+const heroCard = document.querySelector('.hero-card');
+if (heroCard) counterObserver.observe(heroCard);
+
+// ---- Mobile nav toggle ----
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.querySelector('.nav-links');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.display = open ? 'none' : 'flex';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.position = 'absolute';
+    navLinks.style.top = '68px';
+    navLinks.style.left = '0';
+    navLinks.style.right = '0';
+    navLinks.style.background = 'rgba(10,10,10,0.96)';
+    navLinks.style.backdropFilter = 'blur(20px)';
+    navLinks.style.padding = '20px 40px 28px';
+    navLinks.style.borderBottom = '1px solid rgba(255,255,255,0.07)';
+    navLinks.style.gap = '16px';
+    if (open) navLinks.style.display = 'none';
   });
 
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!themeBtn.contains(e.target) && !themeMenu.contains(e.target)) {
-      themeMenu.setAttribute('hidden', '');
-      themeBtn.setAttribute('aria-expanded', 'false');
-    }
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.style.display = 'none';
+    });
   });
+}
 
-  // Keyboard navigation for theme menu (optional)
-  themeMenu.addEventListener('keydown', (e) => {
-    const focusableItems = Array.from(themeMenu.querySelectorAll('li[role="menuitem"]'));
-    const currentIndex = focusableItems.indexOf(document.activeElement);
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      const nextIndex = (currentIndex + 1) % focusableItems.length;
-      focusableItems[nextIndex].focus();
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      const prevIndex = (currentIndex - 1 + focusableItems.length) % focusableItems.length;
-      focusableItems[prevIndex].focus();
-    } else if (e.key === 'Escape') {
-      themeMenu.setAttribute('hidden', '');
-      themeBtn.setAttribute('aria-expanded', 'false');
-      themeBtn.focus();
+// ---- Smooth scroll for anchor links ----
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 });
