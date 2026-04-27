@@ -23,28 +23,28 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Active link on scroll
+// Active link
 const sections = document.querySelectorAll("section");
 
 window.addEventListener("scroll", () => {
     let current = "";
 
     sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        if (pageYOffset >= sectionTop) {
-            current = section.getAttribute("id");
+        const sectionTop = section.offsetTop - 120;
+        if (scrollY >= sectionTop) {
+            current = section.id;
         }
     });
 
     navLinks.forEach(link => {
         link.classList.remove("active");
-        if (link.getAttribute("href").includes(current)) {
+        if (link.getAttribute("href") === "#" + current) {
             link.classList.add("active");
         }
     });
 });
 
-// Intersection Observer animations
+// Animation
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
